@@ -7,6 +7,7 @@ structure server since keys can contain strings, hashes, lists, sets and sorted
 sets.
 EOF
 
+
   engine = "gotpl"
   home   = "http://redis.io/"
   icon   = "https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png"
@@ -30,3 +31,4 @@ EOF
 
   version = "3.0.5"
 }
+

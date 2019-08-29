@@ -1,22 +1,22 @@
-variable release_name {
+variable "release_name" {
   description = "A user specified descriptor of this deployment"
   default     = "redis"
 }
 
-variable redis_image_registry {
+variable "redis_image_registry" {
   description = "The docker image registry used to retrieve the redis image"
   default     = "docker.io"
 }
 
-variable redis_image_repository {
+variable "redis_image_repository" {
   default = "bitnami/redis"
 }
 
-variable redis_image_tag {
+variable "redis_image_tag" {
   default = "4.0.9"
 }
 
-variable redis_image_pull_policy {
+variable "redis_image_pull_policy" {
   description = "One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise."
   default     = "IfNotPresent"
 }
@@ -24,16 +24,17 @@ variable redis_image_pull_policy {
 ##
 ## Redis settings
 ##
-variable use_password {
+variable "use_password" {
   description = "Set to 'false' to disable password protected access to redis."
   default     = true
 }
 
-variable password {
+variable "password" {
   description = <<EOF
 Redis password (both master and slave)
 Defaults to a random 10-character alphanumeric string if not set and usePassword is true
 EOF
+
 
   default = ""
 }
@@ -41,12 +42,12 @@ EOF
 ##
 ## Cluster settings
 ##
-variable cluster_enabled {
+variable "cluster_enabled" {
   description = "Set to 'false' to deploy a redis master only."
   default     = true
 }
 
-variable cluster_slave_count {
+variable "cluster_slave_count" {
   description = "The number of redis slave pods to deploy."
   default     = 1
 }
@@ -54,43 +55,43 @@ variable cluster_slave_count {
 ##
 ## Metrics settings
 ##
-variable metrics_enabled {
+variable "metrics_enabled" {
   description = "Should the Redis Prometheus metrics exporter pod be deployed?"
   default     = true
 }
 
-variable metrics_port {
+variable "metrics_port" {
   description = "The port the metrics exporter will listen for scrape requests."
   default     = "9121"
 }
 
-variable metrics_image_registry {
+variable "metrics_image_registry" {
   description = "The docker image registry used to retrieve the redis_exporter image"
   default     = "docker.io"
 }
 
-variable metrics_image_repository {
+variable "metrics_image_repository" {
   description = "The redis metrics exporter docker image that will be deployed."
   default     = "oliver006/redis_exporter"
 }
 
-variable metrics_image_tag {
+variable "metrics_image_tag" {
   description = "The redis metrics exporter docker tag / version that will be deployed."
   default     = "v0.11"
 }
 
-variable metrics_image_pull_policy {
+variable "metrics_image_pull_policy" {
   description = "One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise."
   default     = "IfNotPresent"
 }
 
-variable metrics_image_pull_secrets {
-  type    = "list"
+variable "metrics_image_pull_secrets" {
+  type    = list(string)
   default = []
 }
 
-variable metrics_resource_requests {
-  type = "map"
+variable "metrics_resource_requests" {
+  type = map(string)
 
   description = <<EOF
 Redis metrics resource requests
@@ -101,11 +102,12 @@ ref: http://kubernetes.io/docs/user-guide/compute-resources/
   }
 EOF
 
+
   default = {}
 }
 
-variable metrics_resource_limits {
-  type = "map"
+variable "metrics_resource_limits" {
+  type = map(string)
 
   description = <<EOF
 Redis metrics resource limits
@@ -116,35 +118,36 @@ ref: http://kubernetes.io/docs/user-guide/compute-resources/
   }
 EOF
 
+
   default = {}
 }
 
-variable metrics_pod_annotations {
-  type    = "map"
+variable "metrics_pod_annotations" {
+  type    = map(string)
   default = {}
 }
 
 ##
 ## Kubernetes settings
 ##
-variable kubernetes_namespace {
+variable "kubernetes_namespace" {
   default = "default"
 }
 
-variable kubernetes_node_selector {
-  type    = "map"
+variable "kubernetes_node_selector" {
+  type    = map(string)
   default = {}
 }
 
 ##
 ## Redis Master parameters
 ##
-variable master_port {
+variable "master_port" {
   default = "6379"
 }
 
-variable master_args {
-  type = "list"
+variable "master_args" {
+  type = list(string)
 
   description = <<EOF
 Redis command arguments.
@@ -156,11 +159,12 @@ master_args = [
 ]
 EOF
 
-  default = []
+
+  default = [""]
 }
 
-variable master_extra_flags {
-  type = "list"
+variable "master_extra_flags" {
+  type = list(string)
 
   description = <<EOF
  Redis additional command line flags
@@ -172,11 +176,12 @@ variable master_extra_flags {
  ]
 EOF
 
+
   default = []
 }
 
-variable master_disable_commands {
-  type = "list"
+variable "master_disable_commands" {
+  type = list(string)
 
   description = <<EOF
 Comma-separated list of Redis commands to disable
@@ -184,25 +189,27 @@ Can be used to disable Redis commands for security reasons.
 ref: https://github.com/bitnami/bitnami-docker-redis#disabling-redis-commands
 EOF
 
+
   default = [
     "FLUSHDB",
     "FLUSHALL",
   ]
 }
 
-variable master_pod_labels {
-  type = "map"
+variable "master_pod_labels" {
+  type = map(string)
 
   description = <<EOF
 Redis Master additional pod labels
 ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 EOF
 
+
   default = {}
 }
 
-variable master_resource_requests {
-  type = "map"
+variable "master_resource_requests" {
+  type = map(string)
 
   description = <<EOF
 Redis Master resource requests
@@ -213,11 +220,12 @@ ref: http://kubernetes.io/docs/user-guide/compute-resources/
   }
 EOF
 
+
   default = {}
 }
 
-variable master_resource_limits {
-  type = "map"
+variable "master_resource_limits" {
+  type = map(string)
 
   description = <<EOF
 Redis Master resource limits
@@ -228,11 +236,12 @@ ref: http://kubernetes.io/docs/user-guide/compute-resources/
   }
 EOF
 
+
   default = {}
 }
 
-variable master_liveness_probe {
-  type        = "map"
+variable "master_liveness_probe" {
+  type        = map(string)
   description = "Redis Master Liveness Probe configuration"
 
   default = {
@@ -245,8 +254,8 @@ variable master_liveness_probe {
   }
 }
 
-variable master_readiness_probe {
-  type        = "map"
+variable "master_readiness_probe" {
+  type        = map(string)
   description = "Redis Master Readiness Probe configuration"
 
   default = {
@@ -259,79 +268,80 @@ variable master_readiness_probe {
   }
 }
 
-variable master_pod_annotations {
-  type    = "map"
+variable "master_pod_annotations" {
+  type    = map(string)
   default = {}
 }
 
-variable master_security_context {
-  default {
+variable "master_security_context" {
+  default = {
     enabled     = true
     fs_group    = 1001
     run_as_user = 1001
   }
 }
 
-variable master_persistence_enabled {
+variable "master_persistence_enabled" {
   default = true
 }
 
-variable master_persistence_path {
+variable "master_persistence_path" {
   default = "/bitnami/redis/data"
 }
 
-variable master_persistence_sub_path {
+variable "master_persistence_sub_path" {
   default = ""
 }
 
-variable master_persistence_access_modes {
+variable "master_persistence_access_modes" {
   default = [
     "ReadWriteOnce",
   ]
 }
 
-variable master_persistence_size {
+variable "master_persistence_size" {
   default = "8Gi"
 }
 
-variable master_persistence_storage_class {
+variable "master_persistence_storage_class" {
   default = ""
 }
 
-variable master_service_type {
+variable "master_service_type" {
   default = "ClusterIP"
 }
 
-variable master_service_annotations {
-  type    = "map"
+variable "master_service_annotations" {
+  type    = map(string)
   default = {}
 }
 
-variable master_service_loadbalancer_ip {
+variable "master_service_loadbalancer_ip" {
   default = ""
 }
 
 ##
 ## Redis Slave parameters
 ##
-variable slave_replica_count {
+variable "slave_replica_count" {
   default = 3
 }
 
-variable slave_pod_annotations {
+variable "slave_pod_annotations" {
   default = {}
 }
 
-variable slave_port {
+variable "slave_port" {
   default = "6379"
 }
 
-variable slave_args {
-  default = []
+variable "slave_args" {
+  type = list(string)
+  default = [""]
 }
 
-variable slave_resource_requests {
-  type = "map"
+variable "slave_resource_requests" {
+  type = map(string)
 
   description = <<EOF
 Redis Slave resource requests
@@ -342,11 +352,12 @@ ref: http://kubernetes.io/docs/user-guide/compute-resources/
   }
 EOF
 
+
   default = {}
 }
 
-variable slave_resource_limits {
-  type = "map"
+variable "slave_resource_limits" {
+  type = map(string)
 
   description = <<EOF
 Redis Slave resource limits
@@ -357,11 +368,12 @@ ref: http://kubernetes.io/docs/user-guide/compute-resources/
   }
 EOF
 
+
   default = {}
 }
 
-variable slave_service_annotations {
-  type = "map"
+variable "slave_service_annotations" {
+  type = map(string)
 
   default = {
     "prometheus.io/scrape" = "true"
@@ -369,10 +381,11 @@ variable slave_service_annotations {
   }
 }
 
-variable slave_service_type {
+variable "slave_service_type" {
   default = "ClusterIP"
 }
 
-variable slave_service_loadbalancer_ip {
+variable "slave_service_loadbalancer_ip" {
   default = ""
 }
+
