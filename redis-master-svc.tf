@@ -3,7 +3,7 @@ resource kubernetes_service redis_master {
     name      = "${local.fullname}-master"
     namespace = "${var.kubernetes_namespace}"
 
-    labels {
+    labels = {
       app     = "${local.name}"
       chart   = "${local.chart}"
       release = "${var.release_name}"
@@ -22,7 +22,7 @@ resource kubernetes_service redis_master {
       target_port = "${var.master_port}"
     }
 
-    selector {
+    selector = {
       app  = "${local.name}"
       role = "master"
     }

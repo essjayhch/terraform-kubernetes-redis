@@ -156,7 +156,7 @@ master_args = [
 ]
 EOF
 
-  default = []
+  default = [""]
 }
 
 variable master_extra_flags {
@@ -236,12 +236,12 @@ variable master_liveness_probe {
   description = "Redis Master Liveness Probe configuration"
 
   default = {
-    enabled               = true
-    initial_delay_seconds = 30
-    period_seconds        = 10
-    timeout_seconds       = 5
-    success_threshold     = 1
-    failure_threshold     = 5
+    enabled               = "true"
+    initial_delay_seconds = "30"
+    period_seconds        = "10"
+    timeout_seconds       = "5"
+    success_threshold     = "1"
+    failure_threshold     = "5"
   }
 }
 
@@ -250,12 +250,12 @@ variable master_readiness_probe {
   description = "Redis Master Readiness Probe configuration"
 
   default = {
-    enabled               = true
-    initial_delay_seconds = 30
-    period_seconds        = 10
-    timeout_seconds       = 5
-    success_threshold     = 1
-    failure_threshold     = 5
+    enabled               = "true"
+    initial_delay_seconds = "30"
+    period_seconds        = "10"
+    timeout_seconds       = "5"
+    success_threshold     = "1"
+    failure_threshold     = "5"
   }
 }
 
@@ -265,7 +265,7 @@ variable master_pod_annotations {
 }
 
 variable master_security_context {
-  default {
+  default = {
     enabled     = true
     fs_group    = 1001
     run_as_user = 1001
@@ -327,6 +327,7 @@ variable slave_port {
 }
 
 variable slave_args {
+  type = list
   default = []
 }
 

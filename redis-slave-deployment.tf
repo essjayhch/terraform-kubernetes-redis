@@ -3,7 +3,7 @@ resource kubernetes_deployment redis_slave {
     name      = "${local.fullname}-slave"
     namespace = "${var.kubernetes_namespace}"
 
-    labels {
+    labels = {
       app     = "${local.name}"
       chart   = "${local.chart}"
       release = "${var.release_name}"
@@ -14,13 +14,15 @@ resource kubernetes_deployment redis_slave {
     replicas = "${var.slave_replica_count}"
 
     selector {
-      app  = "${local.name}"
-      role = "slave"
+      match_labels = {
+        app  = "${local.name}"
+        role = "slave"
+      }
     }
 
     template {
       metadata {
-        labels {
+        labels = {
           app  = "${local.name}"
           role = "slave"
 
@@ -102,9 +104,15 @@ resource kubernetes_deployment redis_slave {
           }
 
           resources {
-            requests = ["${merge(local.default_resource_requests, var.slave_resource_requests)}"]
+            requests {
+              cpu = local.slave_requests["cpu"]
+              memory = local.slave_requests["memory"]
+            }
 
-            limits = ["${merge(local.default_resource_limits, var.slave_resource_limits)}"]
+            limits {
+              cpu = local.slave_limits["cpu"]
+              memory = local.slave_limits["memory"]
+            }
           }
         }
       }

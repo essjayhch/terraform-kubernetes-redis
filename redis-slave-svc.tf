@@ -3,7 +3,7 @@ resource kubernetes_service redis_slave {
     name      = "${local.fullname}-slave"
     namespace = "${var.kubernetes_namespace}"
 
-    labels {
+    labels = {
       app     = "${local.name}"
       chart   = "${local.chart}"
       release = "${var.release_name}"
@@ -28,7 +28,7 @@ resource kubernetes_service redis_slave {
       target_port = "${var.metrics_port}"
     }
 
-    selector {
+    selector = {
       app  = "${local.name}"
       role = "slave"
     }
